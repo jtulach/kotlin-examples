@@ -2,6 +2,7 @@
 
 ## Prerequisites to running the example
 
+ * Download [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) to compile into native binary
  * download Maven directly from the [Apache Maven homepage](http://maven.apache.org/download.html)
  * install and configure your system as described in [the installation section](http://maven.apache.org/download.html#Installation)
 
