@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,6 +13,7 @@
         <kotlin.version>1.0.3</kotlin.version>
         <junit.version>4.12</junit.version>
         <main.class>hello.HelloKt</main.class>
+        <main.exe>hello-world</main.exe>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -108,53 +109,29 @@
                 <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <phase>test</phase>
+                        <id>native-image</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>java</goal>
+                            <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <mainClass>${main.class}</mainClass>
+                            <executable>${java.home}/bin/native-image</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>${main.class}</argument>
+                                <argument>-H:Name=${main.exe}</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <executable>${main.exe}</executable>
+                </configuration>
             </plugin>
         </plugins>
     </build>
-    
-    
     <profiles>
-        <profile>
-            <id>substratevm</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
-                        <executions>
-                            <execution>
-                                <id>native-image</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>${java.home}/bin/native-image</executable>
-                                    <arguments>
-                                        <argument>-classpath</argument>
-                                        <classpath/>
-                                        <argument>${main.class}</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <executable>./hello.hellokt</executable>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>check-graalvm</id>
             <activation>
