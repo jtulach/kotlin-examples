@@ -124,6 +124,9 @@
                                 </configuration>
                             </execution>
                         </executions>
+                        <configuration>
+                            <executable>./hello.hellokt</executable>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
